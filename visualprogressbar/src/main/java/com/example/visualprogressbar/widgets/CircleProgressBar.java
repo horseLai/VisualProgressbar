@@ -400,7 +400,8 @@ public class CircleProgressBar extends View
 
     private void drawCircle(Canvas canvas)
     {
-        canvas.translate(getWidth() / 2, getHeight() / 2);
+        //canvas.translate(getWidth() / 2, getHeight() / 2);
+        // TODO: 2017/11/28 add other function here
 
     }
 
