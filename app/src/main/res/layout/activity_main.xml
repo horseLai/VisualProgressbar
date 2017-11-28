@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.app.laixiaolong.customview.MainActivity">
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="startProgress"
+        android:text="go"/>
+
+    <com.example.visualprogressbar.widgets.LinearProgressBar
+        android:id="@+id/vProgressH"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="3dp"
+        app:fillTrackColor="@color/colorAccent"
+        app:fillTrackSuccessColor="@android:color/holo_green_light"
+        app:labelTextSuccessColor="@android:color/holo_green_light"
+        app:linearShapeStyle="linear_horizontal"
+        app:max="100"
+        android:layout_margin="5dp"
+        app:progress="66"
+        app:wrapperColor="@color/colorAccent"
+        app:wrapperSuccessColor="@android:color/holo_green_light"
+        />
+
+
+    <com.example.visualprogressbar.widgets.CircleProgressBar
+        android:id="@+id/vProgressA"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        app:circleShapeStyle="arc"
+        android:padding="3dp"
+        app:fillTrackColor="@color/colorAccent"
+        app:fillTrackSuccessColor="@android:color/holo_green_light"
+        app:labelTextSuccessColor="@android:color/holo_green_light"
+        app:labelTextSuffix="%"
+        app:max="100"
+        app:progress="90"
+        app:wrapperSuccessColor="@android:color/holo_green_light"
+        />
+
+    <com.example.visualprogressbar.widgets.LinearProgressBar
+        android:id="@+id/vProgressV"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_margin="5dp"
+        app:fillTrackColor="@color/colorAccent"
+        app:fillTrackSuccessColor="@android:color/holo_green_light"
+        app:labelTextSuccessColor="@android:color/holo_green_light"
+        app:linearShapeStyle="linear_vertical"
+        app:max="100"
+        app:progress="66"
+        app:wrapperSuccessColor="@android:color/holo_green_light"
+        />
+
+</LinearLayout>

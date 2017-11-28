@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <attr name="max" format="integer"/>
+    <attr name="progress" format="integer"/>
+    <attr name="labelTextColor" format="color"/>
+    <attr name="labelTextSuccessColor" format="color"/>
+    <attr name="labelTextSize" format="dimension"/>
+    <attr name="labelTextVisible" format="boolean"/>
+    <attr name="labelTextSuffix" format="string"/>
+    <attr name="labelTextPrefix" format="string"/>
+    <attr name="fillTrackColor" format="color"/>
+    <attr name="fillTrackSuccessColor" format="color"/>
+    <attr name="wrapperColor" format="color"/>
+    <attr name="wrapperSuccessColor" format="color"/>
+
+    <declare-styleable name="LinearProgressBar">
+
+        <attr name="max"/>
+        <attr name="progress"/>
+        <attr name="labelTextColor"/>
+        <attr name="labelTextSuccessColor"/>
+        <attr name="labelTextSize"/>
+        <attr name="labelTextVisible"/>
+        <attr name="labelTextSuffix"/>
+        <attr name="labelTextPrefix"/>
+        <!--normal color used to fill the hollow shaft-->
+        <attr name="fillTrackColor"/>
+        <!-- color used to fill the hollow shaft when finished-->
+        <attr name="fillTrackSuccessColor"/>
+
+        <!--normal color of hollow shaft or ring -->
+        <attr name="wrapperColor"/>
+        <!-- color of hollow shaft or ring when finished-->
+        <attr name="wrapperSuccessColor"/>
+
+        <attr name="horizontalBarHeight" format="dimension"/>
+        <attr name="verticalBarWidth" format="dimension"/>
+        <attr name="barRadius" format="dimension"/>
+        <attr name="barWrapStrokeWidth" format="dimension"/>
+
+
+        <attr name="linearShapeStyle" format="enum">
+            <enum name="linear_horizontal" value="0"/>
+            <enum name="linear_vertical" value="1"/>
+        </attr>
+
+    </declare-styleable>
+
+    <declare-styleable name="CircleProgressBar">
+        <attr name="max"/>
+        <attr name="progress"/>
+
+        <attr name="labelTextColor"/>
+        <attr name="labelTextSuccessColor"/>
+        <attr name="labelTextSize"/>
+        <attr name="labelTextVisible"/>
+        <attr name="labelTextSuffix"/>
+        <attr name="labelTextPrefix"/>
+
+        <attr name="fillTrackColor"/>
+        <attr name="fillTrackSuccessColor"/>
+
+        <attr name="wrapperColor"/>
+        <attr name="wrapperSuccessColor"/>
+
+        <attr name="circleRadius" format="dimension"/>
+        <attr name="circleStrokeWidth" format="dimension"/>
+
+
+        <attr name="circleShapeStyle" format="enum">
+            <enum name="circle" value="2"/>
+            <enum name="arc" value="3"/>
+        </attr>
+
+
+    </declare-styleable>
+
+</resources>
