@@ -72,8 +72,33 @@
             <enum name="circle" value="2"/>
             <enum name="arc" value="3"/>
         </attr>
+    </declare-styleable>
 
+    <declare-styleable name="ProgressButton">
+        <attr name="labelTextColor"/>
+        <attr name="labelTextSuccessColor"/>
+        <attr name="labelTextSize"/>
+        <attr name="labelTextVisible"/>
+        <attr name="labelTextSuffix"/>
+        <attr name="labelTextPrefix"/>
 
+        <attr name="fillTrackColor"/>
+        <attr name="fillTrackSuccessColor"/>
+
+        <attr name="wrapperColor"/>
+        <attr name="wrapperSuccessColor"/>
+
+        <attr name="android:text"/>
+        <attr name="android:textSize"/>
+        <attr name="android:textColor"/>
+
+        <attr name="cornerRadius" format="dimension"/>
+        <attr name="boardWidth" format="dimension"/>
+
+        <attr name="btnShapeStyle" format="enum">
+            <enum name="rect" value="4"/>
+            <enum name="roundRect" value="5"/>
+        </attr>
     </declare-styleable>
 
 </resources>

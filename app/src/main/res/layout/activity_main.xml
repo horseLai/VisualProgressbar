@@ -18,14 +18,13 @@
         android:id="@+id/vProgressH"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:padding="3dp"
+        app:labelTextSuffix="%"
         app:fillTrackColor="@color/colorAccent"
         app:fillTrackSuccessColor="@android:color/holo_green_light"
         app:labelTextSuccessColor="@android:color/holo_green_light"
         app:linearShapeStyle="linear_horizontal"
         app:max="100"
-        app:progress="66"
+        app:progress="0"
         app:wrapperColor="@color/colorAccent"
         app:wrapperSuccessColor="@android:color/holo_green_light"
         />
@@ -35,15 +34,14 @@
         android:id="@+id/vProgressA"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-        android:padding="3dp"
         app:circleShapeStyle="arc"
         app:fillTrackColor="@color/colorAccent"
         app:fillTrackSuccessColor="@android:color/holo_green_light"
         app:labelTextSuccessColor="@android:color/holo_green_light"
         app:labelTextSuffix="%"
         app:max="100"
-        app:progress="90"
+        app:labelTextVisible="true"
+        app:progress="0"
         app:wrapperSuccessColor="@android:color/holo_green_light"
         />
 
@@ -51,14 +49,29 @@
         android:id="@+id/vProgressV"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:layout_margin="5dp"
         app:fillTrackColor="@color/colorAccent"
         app:fillTrackSuccessColor="@android:color/holo_green_light"
         app:labelTextSuccessColor="@android:color/holo_green_light"
         app:linearShapeStyle="linear_vertical"
+        app:labelTextVisible="true"
         app:max="100"
-        app:progress="66"
+        app:labelTextSuffix="%"
+        app:progress="0"
         app:wrapperSuccessColor="@android:color/holo_green_light"
+        />
+
+    <com.example.visualprogressbar.widgets.ProgressButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text=""
+        android:textSize="16sp"
+        android:textColor="@android:color/holo_orange_light"
+
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         />
 
 </LinearLayout>

@@ -11,8 +11,6 @@ import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
-
 
 import com.example.visualprogressbar.R;
 
@@ -22,7 +20,7 @@ import java.util.Locale;
  * Created by laixiaolong on 2017/11/25.
  */
 
-public class CircleProgressBar extends View
+public class CircleProgressBar extends AbsView
 {
     private RectF mFillTrackRectF;
     private Paint mFillTrackPaint;
@@ -57,6 +55,21 @@ public class CircleProgressBar extends View
     private int mCircleRight;
     private int mCircleBottom;
     private int mCircleTop;
+
+    public CircleProgressBar(Context context)
+    {
+        super(context);
+    }
+
+    public CircleProgressBar(Context context, @Nullable AttributeSet attrs)
+    {
+        super(context, attrs);
+    }
+
+    public CircleProgressBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr)
+    {
+        super(context, attrs, defStyleAttr);
+    }
 
 
     public int getCircleWidth()
@@ -159,26 +172,8 @@ public class CircleProgressBar extends View
     }
 
 
-    public CircleProgressBar(Context context)
-    {
-
-        this(context, null);
-    }
-
-    public CircleProgressBar(Context context, @Nullable AttributeSet attrs)
-    {
-        this(context, attrs, 0);
-    }
-
-    public CircleProgressBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr)
-    {
-        super(context, attrs, defStyleAttr);
-
-        setupAttrs(context, attrs, defStyleAttr);
-        initialize();
-    }
-
-    private void setupAttrs(Context context, AttributeSet attrs, int defStyleAttr)
+    @Override
+    protected void extractAttrs(Context context, AttributeSet attrs, int defStyleAttr)
     {
         Resources.Theme theme = context.getTheme();
         TypedArray typedArray =
@@ -221,7 +216,8 @@ public class CircleProgressBar extends View
     }
 
     //initialization
-    private void initialize()
+    @Override
+    protected void initialize()
     {
         mWrapPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mWrapPaint.setColor(mWrapColor);
@@ -363,7 +359,6 @@ public class CircleProgressBar extends View
     @Override
     protected void onDraw(Canvas canvas)
     {
-        super.onDraw(canvas);
 
         switch (mShapeStyle) {
             case SHAPE_CIRCLE:
@@ -380,13 +375,12 @@ public class CircleProgressBar extends View
     {
         canvas.translate(getWidth() / 2, getHeight() / 2);
 
-        final int angle = 360 * mProgress / mMax;
+        final int angle = Math.round(360 * mProgress / mMax);
         mFillTrackPaint.setColor(mProgress == mMax ? mFillTrackSuccessColor : mFillTrackColor);
         mFillTrackRectF.set(-mRadius, -mRadius, mRadius, mRadius);
         mWrapperRectF.set(mFillTrackRectF);
 
         canvas.drawArc(mWrapperRectF, 0f, 360f, false, mWrapPaint);
-
         canvas.drawArc(mFillTrackRectF, 0f, angle, false, mFillTrackPaint);
 
         if (!mLabelTextVisible) return;
@@ -416,44 +410,6 @@ public class CircleProgressBar extends View
         mCircleWidth = mCircleRight - mCircleLeft;
         mCircleHeight = mCircleBottom - mCircleTop;
 
-    }
-
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        final int modeW = MeasureSpec.getMode(widthMeasureSpec);
-        final int sizeW = MeasureSpec.getSize(widthMeasureSpec);
-
-        final int modeH = MeasureSpec.getMode(heightMeasureSpec);
-        final int sizeH = MeasureSpec.getSize(heightMeasureSpec);
-
-        if (modeH == MeasureSpec.AT_MOST && modeW == MeasureSpec.AT_MOST) {
-            final int width = getSuggestedMinimumWidth() + getPaddingEnd() + getPaddingStart();
-            final int height = getSuggestedMinimumHeight() + getPaddingTop() + getPaddingBottom();
-            setMeasuredDimension(width, height);
-        } else if (modeW == MeasureSpec.AT_MOST) {
-            final int width = getSuggestedMinimumWidth() + getPaddingEnd() + getPaddingStart();
-            setMeasuredDimension(width, sizeH);
-        } else if (modeH == MeasureSpec.AT_MOST) {
-            final int height = getSuggestedMinimumHeight() + getPaddingTop() + getPaddingBottom();
-            setMeasuredDimension(sizeW, height);
-        } else {
-            setMeasuredDimension(sizeW, sizeH);
-        }
-    }
-
-    private float dp2px(float dp)
-    {
-        final float densityScale = getResources().getDisplayMetrics().density;
-        return densityScale * dp + 0.5f;
-    }
-
-    private float sp2px(float sp)
-    {
-        final float densityScale = getResources().getDisplayMetrics().scaledDensity;
-        return densityScale * sp;
     }
 
 
