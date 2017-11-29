@@ -10,7 +10,6 @@ import android.graphics.RectF;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
-import android.view.View;
 
 import com.example.visualprogressbar.R;
 
@@ -20,7 +19,7 @@ import java.util.Locale;
  * Created by laixiaolong on 2017/11/25.
  */
 
-public class LinearProgressBar extends View
+public class LinearProgressBar extends AbsView
 {
     private RectF mFillTrackRectF;
     private Paint mFillTrackPaint;
@@ -56,6 +55,21 @@ public class LinearProgressBar extends View
     private int mBarBottom;
     private int mBarTop;
     private int mVerticalBarHeight;
+
+    public LinearProgressBar(Context context)
+    {
+        super(context);
+    }
+
+    public LinearProgressBar(Context context, @Nullable AttributeSet attrs)
+    {
+        super(context, attrs);
+    }
+
+    public LinearProgressBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr)
+    {
+        super(context, attrs, defStyleAttr);
+    }
 
 
     public int getShapeStyle()
@@ -135,26 +149,9 @@ public class LinearProgressBar extends View
         invalidate();
     }
 
-    public LinearProgressBar(Context context)
-    {
 
-        this(context, null);
-    }
-
-    public LinearProgressBar(Context context, @Nullable AttributeSet attrs)
-    {
-        this(context, attrs, 0);
-    }
-
-    public LinearProgressBar(Context context, @Nullable AttributeSet attrs, int defStyleAttr)
-    {
-        super(context, attrs, defStyleAttr);
-
-        setupAttrs(context, attrs, defStyleAttr);
-        initialize();
-    }
-
-    private void setupAttrs(Context context, AttributeSet attrs, int defStyleAttr)
+    @Override
+    protected void extractAttrs(Context context, AttributeSet attrs, int defStyleAttr)
     {
         Resources.Theme theme = context.getTheme();
         TypedArray typedArray =
@@ -201,8 +198,10 @@ public class LinearProgressBar extends View
         typedArray.recycle();
     }
 
+
     //initialization
-    private void initialize()
+    @Override
+    protected void initialize()
     {
         mBarWrapPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBarWrapPaint.setColor(mBarWrapColor);
@@ -219,9 +218,6 @@ public class LinearProgressBar extends View
         mLabelTextPaint.setColor(mLabelTextColor);
         mLabelTextPaint.setTextSize(mLabelTextSize);
         mLabelTextPaint.setStyle(Paint.Style.FILL);
-
-        final int px = (int) dp2px(3f);
-        setPadding(px, px, px, px);
     }
 
     public int getBarWrapColor()
@@ -312,41 +308,38 @@ public class LinearProgressBar extends View
     @Override
     protected int getSuggestedMinimumWidth()
     {
-
         final String text =
-                String.format(Locale.getDefault(), "%s00%s", mLabelTextPrefix, mLabelTextSuffix);
+                String.format(Locale.getDefault(), "%s100%s", mLabelTextPrefix, mLabelTextSuffix);
         float textWidth = mLabelTextPaint.measureText(text);
         switch (mShapeStyle) {
             case SHAPE_LINEAR_HORIZONTAL: {
                 if (!mLabelTextVisible)
                     return Math.round(mHorizontalBarHeight + mBarWrapStrokeWidth * 2);
-                return Math.round(textWidth + mBarWrapStrokeWidth * 2);
+                return Math.round(textWidth + mBarWrapStrokeWidth * 2 + sPaddingAdd*2);
             }
             case SHAPE_LINEAR_VERTICAL: {
                 if (!mLabelTextVisible)
                     return Math.round(mVerticalBarWidth + mBarWrapStrokeWidth * 2);
-                return Math.round(textWidth + mBarWrapStrokeWidth * 2);
+                return Math.round(textWidth + mBarWrapStrokeWidth * 2 + textWidth + 5);
             }
             default:
                 return super.getSuggestedMinimumHeight();
         }
-
-
     }
 
 
     @Override
     protected int getSuggestedMinimumHeight()
     {
+        final String text =
+                String.format(Locale.getDefault(), "%s100%s", mLabelTextPrefix, mLabelTextSuffix);
+        float textWidth = mLabelTextPaint.measureText(text);
         switch (mShapeStyle) {
             case SHAPE_LINEAR_HORIZONTAL: {
-                return mLabelTextVisible ? (Math.round(sp2px(mLabelTextSize) + mHorizontalBarHeight + mBarWrapStrokeWidth * 2) + 5) : Math.round(mHorizontalBarHeight);
+                return mLabelTextVisible ? Math.round(sp2px(mLabelTextSize) + mHorizontalBarHeight + mBarWrapStrokeWidth * 2 + textWidth) : Math.round(mHorizontalBarHeight);
             }
             case SHAPE_LINEAR_VERTICAL: {
-                final String text =
-                        String.format(Locale.getDefault(), "%s00%s", mLabelTextPrefix, mLabelTextSuffix);
-                float textWidth = mLabelTextPaint.measureText(text);
-                return Math.round(textWidth + mBarWrapStrokeWidth * 2);
+                return Math.round(textWidth + mBarWrapStrokeWidth * 2 + sPaddingAdd*2);
             }
             default:
                 return super.getSuggestedMinimumHeight();
@@ -356,8 +349,6 @@ public class LinearProgressBar extends View
     @Override
     protected void onDraw(Canvas canvas)
     {
-        super.onDraw(canvas);
-
         switch (mShapeStyle) {
             case SHAPE_LINEAR_HORIZONTAL:
                 drawLinearHorizontal(canvas);
@@ -376,13 +367,13 @@ public class LinearProgressBar extends View
 
         // bar line wrapper
         mBarWrapPaint.setColor(mProgress == mMax ? mBarWrapSuccessColor : mBarWrapColor);
-        mBarWrapperRectF.set(-mVerticalBarWidth / 2, mBarTop, mVerticalBarWidth / 2, mBarBottom);
+        mBarWrapperRectF.set(-mVerticalBarWidth / 2  , mBarTop , mVerticalBarWidth / 2, mBarBottom );
         canvas.drawRoundRect(mBarWrapperRectF, mRingRadius, mRingRadius, mBarWrapPaint);
 
         final int position = mBarBottom - mVerticalBarHeight * mProgress / mMax;
         //根据进度画实心颜色
         mFillTrackPaint.setColor(mProgress == mMax ? mFillTrackSuccessColor : mFillTrackColor);
-        mFillTrackRectF.set(-mVerticalBarWidth / 2, position, mVerticalBarWidth / 2, mBarBottom);
+        mFillTrackRectF.set(-mVerticalBarWidth / 2, position  , mVerticalBarWidth / 2, mBarBottom);
         canvas.drawRoundRect(mFillTrackRectF, mRingRadius, mRingRadius, mFillTrackPaint);
 
         //  draw label text
@@ -394,13 +385,13 @@ public class LinearProgressBar extends View
         canvas.translate(0, getHeight() / 2);
 
         mBarWrapPaint.setColor(mProgress == mMax ? mBarWrapSuccessColor : mBarWrapColor);
-        mBarWrapperRectF.set(mBarLeft, -(mHorizontalBarHeight / 2), mBarRight, mHorizontalBarHeight / 2);
+        mBarWrapperRectF.set(mBarLeft , -(mHorizontalBarHeight / 2), mBarRight , mHorizontalBarHeight / 2);
         canvas.drawRoundRect(mBarWrapperRectF, mRingRadius, mRingRadius, mBarWrapPaint);
 
         final int position = mBarLeft + mHorizontalBarWidth * mProgress / mMax;
         //根据进度画实心颜色
         mFillTrackPaint.setColor(mProgress == mMax ? mFillTrackSuccessColor : mFillTrackColor);
-        mFillTrackRectF.set(mBarLeft, -(mHorizontalBarHeight / 2), position, mHorizontalBarHeight / 2);
+        mFillTrackRectF.set(mBarLeft , -(mHorizontalBarHeight / 2), position , mHorizontalBarHeight / 2);
         canvas.drawRoundRect(mFillTrackRectF, mRingRadius, mRingRadius, mFillTrackPaint);
 
         //根据进度绘制提示标签
@@ -435,49 +426,12 @@ public class LinearProgressBar extends View
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
-        mBarLeft = getPaddingStart();
-        mBarRight = getRight() - getLeft() - getPaddingEnd();
-        mBarTop = getPaddingTop() + (int) mBarWrapStrokeWidth;
-        mBarBottom = getBottom() - getTop() - getPaddingBottom();
-        mHorizontalBarWidth = mBarRight - mBarLeft;
+        mBarLeft = (int) (getPaddingStart() +sPaddingAdd);
+        mBarRight = (int) (getRight() - getLeft() - getPaddingEnd() -sPaddingAdd);
+        mBarTop = (int) (getPaddingTop() + (int) mBarWrapStrokeWidth +sPaddingAdd);
+        mBarBottom = (int) (getBottom() - getTop() - getPaddingBottom() -sPaddingAdd);
+        mHorizontalBarWidth = mBarRight - mBarLeft ;
         mVerticalBarHeight = mBarBottom - mBarTop;
     }
 
-    @Override
-    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
-    {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-
-        final int modeW = MeasureSpec.getMode(widthMeasureSpec);
-        final int sizeW = MeasureSpec.getSize(widthMeasureSpec);
-
-        final int modeH = MeasureSpec.getMode(heightMeasureSpec);
-        final int sizeH = MeasureSpec.getSize(heightMeasureSpec);
-
-        if (modeH == MeasureSpec.AT_MOST && modeW == MeasureSpec.AT_MOST) {
-            final int width = getSuggestedMinimumWidth() + getPaddingEnd() + getPaddingStart();
-            final int height = getSuggestedMinimumHeight() + getPaddingTop() + getPaddingBottom();
-            setMeasuredDimension(width, height);
-        } else if (modeW == MeasureSpec.AT_MOST) {
-            final int width = getSuggestedMinimumWidth() + getPaddingEnd() + getPaddingStart();
-            setMeasuredDimension(width, sizeH);
-        } else if (modeH == MeasureSpec.AT_MOST) {
-            final int height = getSuggestedMinimumHeight() + getPaddingTop() + getPaddingBottom();
-            setMeasuredDimension(sizeW, height);
-        } else {
-            setMeasuredDimension(sizeW, sizeH);
-        }
-    }
-
-    private float dp2px(float dp)
-    {
-        final float densityScale = getResources().getDisplayMetrics().density;
-        return densityScale * dp + 0.5f;
-    }
-
-    private float sp2px(float sp)
-    {
-        final float densityScale = getResources().getDisplayMetrics().scaledDensity;
-        return densityScale * sp;
-    }
 }
