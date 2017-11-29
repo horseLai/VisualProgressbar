@@ -238,7 +238,7 @@ public class CircleProgressBar extends AbsView
         mTextBounds = new Rect();
         // ensure label text can be display properly
         final float textWidth =
-                mLabelTextPaint.measureText(String.format("%s00%s", mLabelTextPrefix, mLabelTextSuffix));
+                mLabelTextPaint.measureText(String.format("%s100%s", mLabelTextPrefix, mLabelTextSuffix));
         mRadius = Math.max(textWidth * 0.9f, mRadius);
 
         mLabelTextPaint.setStyle(Paint.Style.FILL);

@@ -105,7 +105,7 @@ public class ProgressButton extends AbsView
         mCornerRadius =
                 typedArray.getDimension(R.styleable.ProgressButton_cornerRadius, dp2px(10f));
 
-        mBoardWidth = typedArray.getDimension(R.styleable.ProgressButton_boardWidth, dp2px(5f));
+        mBoardWidth = typedArray.getDimension(R.styleable.ProgressButton_boardWidth, dp2px(2f));
 
         mLabelTextVisible =
                 typedArray.getBoolean(R.styleable.ProgressButton_labelTextVisible, true);
@@ -115,6 +115,7 @@ public class ProgressButton extends AbsView
         mLabelTextPrefix = typedArray.getString(R.styleable.ProgressButton_labelTextPrefix);
         mLabelTextSuffix = TextUtils.isEmpty(mLabelTextSuffix) ? "" : mLabelTextSuffix;
         mLabelTextPrefix = TextUtils.isEmpty(mLabelTextPrefix) ? "" : mLabelTextPrefix;
+
 
         typedArray.recycle();
     }
@@ -139,14 +140,15 @@ public class ProgressButton extends AbsView
         mLabelTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mLabelTextPaint.setColor(mLabelTextColor);
         mLabelTextPaint.setTextSize(mLabelTextSize);
+        mLabelTextPaint.setTextAlign(Paint.Align.CENTER);
+        mLabelTextPaint.setStyle(Paint.Style.FILL);
         mTextBounds = new Rect();
+
         // ensure label text can be display properly
         final float textWidth =
                 mLabelTextPaint.measureText(String.format("%s100%s", mLabelTextPrefix, mLabelTextSuffix));
+        mBtnHeight = Math.max(mBtnHeight, getBtnTextHeight() * 2);
         mBtnWidth = Math.max(textWidth * 0.9f, mBtnWidth);
-
-        mLabelTextPaint.setStyle(Paint.Style.FILL);
-        mLabelTextPaint.setTextAlign(Paint.Align.CENTER);
 
     }
 
@@ -158,6 +160,8 @@ public class ProgressButton extends AbsView
         mWrapperRectF.set(mBtnLeft + sPaddingAdd, mBtnTop + sPaddingAdd, mBtnRight - sPaddingAdd, mBtnBottom - sPaddingAdd);
         canvas.drawRoundRect(mWrapperRectF, mCornerRadius, mCornerRadius, mWrapPaint);
 
+
+        canvas.drawText(mBtnText, getWidth() / 2f, getHeight() / 2f + mTextBounds.height() / 2.0f, mLabelTextPaint);
     }
 
 
@@ -185,8 +189,14 @@ public class ProgressButton extends AbsView
     @Override
     protected int getSuggestedMinimumHeight()
     {
+        return Math.round(mBtnWidth + mBoardWidth * 2 + getBtnTextHeight());
+    }
+
+    private int getBtnTextHeight()
+    {
         mLabelTextPaint.setTextSize(mBtnTextSize);
         mLabelTextPaint.getTextBounds("A", 0, 1, mTextBounds);
-        return Math.round(mBtnWidth + mBoardWidth * 2 + mTextBounds.height());
+        mLabelTextPaint.setTextSize(mLabelTextSize);
+        return mTextBounds.height();
     }
 }

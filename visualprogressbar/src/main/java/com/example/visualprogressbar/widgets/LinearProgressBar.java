@@ -367,13 +367,13 @@ public class LinearProgressBar extends AbsView
 
         // bar line wrapper
         mBarWrapPaint.setColor(mProgress == mMax ? mBarWrapSuccessColor : mBarWrapColor);
-        mBarWrapperRectF.set(-mVerticalBarWidth / 2  , mBarTop+ sPaddingAdd, mVerticalBarWidth / 2, mBarBottom- sPaddingAdd);
+        mBarWrapperRectF.set(-mVerticalBarWidth / 2  , mBarTop , mVerticalBarWidth / 2, mBarBottom );
         canvas.drawRoundRect(mBarWrapperRectF, mRingRadius, mRingRadius, mBarWrapPaint);
 
         final int position = mBarBottom - mVerticalBarHeight * mProgress / mMax;
         //根据进度画实心颜色
         mFillTrackPaint.setColor(mProgress == mMax ? mFillTrackSuccessColor : mFillTrackColor);
-        mFillTrackRectF.set(-mVerticalBarWidth / 2, position+sPaddingAdd, mVerticalBarWidth / 2, mBarBottom-sPaddingAdd);
+        mFillTrackRectF.set(-mVerticalBarWidth / 2, position  , mVerticalBarWidth / 2, mBarBottom);
         canvas.drawRoundRect(mFillTrackRectF, mRingRadius, mRingRadius, mFillTrackPaint);
 
         //  draw label text
@@ -385,13 +385,13 @@ public class LinearProgressBar extends AbsView
         canvas.translate(0, getHeight() / 2);
 
         mBarWrapPaint.setColor(mProgress == mMax ? mBarWrapSuccessColor : mBarWrapColor);
-        mBarWrapperRectF.set(mBarLeft+ sPaddingAdd, -(mHorizontalBarHeight / 2), mBarRight- sPaddingAdd, mHorizontalBarHeight / 2);
+        mBarWrapperRectF.set(mBarLeft , -(mHorizontalBarHeight / 2), mBarRight , mHorizontalBarHeight / 2);
         canvas.drawRoundRect(mBarWrapperRectF, mRingRadius, mRingRadius, mBarWrapPaint);
 
         final int position = mBarLeft + mHorizontalBarWidth * mProgress / mMax;
         //根据进度画实心颜色
         mFillTrackPaint.setColor(mProgress == mMax ? mFillTrackSuccessColor : mFillTrackColor);
-        mFillTrackRectF.set(mBarLeft+ sPaddingAdd, -(mHorizontalBarHeight / 2), position-sPaddingAdd, mHorizontalBarHeight / 2);
+        mFillTrackRectF.set(mBarLeft , -(mHorizontalBarHeight / 2), position , mHorizontalBarHeight / 2);
         canvas.drawRoundRect(mFillTrackRectF, mRingRadius, mRingRadius, mFillTrackPaint);
 
         //根据进度绘制提示标签
@@ -426,11 +426,11 @@ public class LinearProgressBar extends AbsView
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
-        mBarLeft = getPaddingStart();
-        mBarRight = getRight() - getLeft() - getPaddingEnd();
-        mBarTop = getPaddingTop() + (int) mBarWrapStrokeWidth;
-        mBarBottom = getBottom() - getTop() - getPaddingBottom();
-        mHorizontalBarWidth = mBarRight - mBarLeft;
+        mBarLeft = (int) (getPaddingStart() +sPaddingAdd);
+        mBarRight = (int) (getRight() - getLeft() - getPaddingEnd() -sPaddingAdd);
+        mBarTop = (int) (getPaddingTop() + (int) mBarWrapStrokeWidth +sPaddingAdd);
+        mBarBottom = (int) (getBottom() - getTop() - getPaddingBottom() -sPaddingAdd);
+        mHorizontalBarWidth = mBarRight - mBarLeft ;
         mVerticalBarHeight = mBarBottom - mBarTop;
     }
 
